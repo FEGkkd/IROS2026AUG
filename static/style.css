@@ -580,6 +580,12 @@ figcaption {
   background: white;
 }
 
+.results-figure-full img {
+  object-fit: contain;
+  aspect-ratio: auto;
+  background: #f7faf9;
+}
+
 .results-gallery figcaption {
   max-width: none;
   margin: 10px 0 0;
