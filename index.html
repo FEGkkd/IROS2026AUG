@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Instrument+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/style.css?v=5">
+  <link rel="stylesheet" href="static/style.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -29,15 +29,12 @@
   </nav>
 
   <main id="main">
-    <header id="top" class="hero">
-      <div class="hero-grid">
+    <header id="top" class="hero hero-split">
+      <div class="hero-shell">
         <div class="hero-copy">
           <p class="venue">Accepted to IROS 2026</p>
-          <h1 class="hero-title" aria-label="AUG: Perception-Aware UAV Graph-Based Planning for GNSS-Denied Navigation in Feature-Sparse Environments">
-            AUG: Perception-Aware UAV Graph-Based Planning<br>
-            for GNSS-Denied Navigation<br>
-            in Feature-Sparse Environments
-          </h1>
+          <h1 class="hero-title">AUG: Perception-Aware UAV Graph-Based Planning for GNSS-Denied Navigation in Feature-Sparse Environments</h1>
+          <p class="hero-subtitle">Long-range UAV planning that reasons about geometry, observability, and yaw together.</p>
 
           <section class="authors" aria-label="Authors and affiliations">
             <p>Enguang Feng, Haohuan Yuan, Hong Zhang, Hao Xu, Yikun Dou, Jiarong Lin, and Xiwang Dong</p>
@@ -46,7 +43,7 @@
           </section>
 
           <p class="lead">
-            AUG plans long-range UAV flight around estimator quality, not just collision avoidance. It routes through structure-rich corridors, updates locally on a robocentric map, and steers yaw so LiDAR keeps observing informative geometry in GNSS-denied, feature-sparse scenes.
+            AUG plans around estimator health, not only collision avoidance. It incrementally builds a free-space topological graph, runs local MINCO optimization on a robocentric ROG-map, and adjusts yaw so LiDAR keeps observing structure-rich regions during GNSS-denied flight.
           </p>
 
           <div class="resource-row" aria-label="Project resources">
@@ -58,38 +55,38 @@
               <span class="icon play-icon" aria-hidden="true"></span>
               <span>Video</span>
             </a>
-            <a class="resource-link" href="#results">
+            <a class="resource-link" href="#citation">
               <span class="icon code-icon" aria-hidden="true"></span>
-              <span>Key results</span>
+              <span>Citation</span>
             </a>
           </div>
         </div>
 
-        <figure class="hero-figure" aria-label="Figure 1: AUG motivation and trajectory comparison">
-          <img src="resources/images/figure1.jpg" alt="Figure 1 showing AUG selecting a structure-rich route while EGO-Planner and SUPER fail in feature-sparse regions">
+        <figure class="hero-figure hero-figure--full" aria-label="Figure 1">
+          <img src="resources/images/figure1.jpg" alt="Figure 1 showing AUG choosing a structure-rich route while baseline trajectories enter feature-sparse regions and fail">
           <figcaption>
-            Figure 1. Direct routes can be geometrically valid but estimator-hostile. AUG stays in the structure-rich corridor, while baseline planners enter feature-sparse space and fail after localization degrades.
+            Figure 1. Direct routes can be geometrically valid but estimator-hostile. AUG prefers the structure-rich corridor, while baseline planners drift into feature-sparse space and fail.
           </figcaption>
         </figure>
+      </div>
 
-        <aside class="hero-aside" aria-label="Key project highlights">
-          <article>
-            <strong>100%</strong>
-            <span>simulation success across 3 sparse scenes</span>
-          </article>
-          <article>
-            <strong>1.1-1.7%</strong>
-            <span>RPE under the unified failure criterion</span>
-          </article>
-          <article>
-            <strong>24-26 ms</strong>
-            <span>online replanning runtime per step</span>
-          </article>
-          <article>
-            <strong>0.75-0.81 GB</strong>
-            <span>nearly constant memory footprint</span>
-          </article>
-        </aside>
+      <div class="stat-strip" aria-label="Key project highlights">
+        <article>
+          <strong>100%</strong>
+          <span>simulation success across 3 sparse scenes</span>
+        </article>
+        <article>
+          <strong>1-2%</strong>
+          <span>relative pose error in simulation</span>
+        </article>
+        <article>
+          <strong>0.75-0.81 GB</strong>
+          <span>stable memory footprint during planning</span>
+        </article>
+        <article>
+          <strong>2.24%</strong>
+          <span>mean GNSS-referenced outdoor drift</span>
+        </article>
       </div>
     </header>
 
@@ -98,15 +95,15 @@
         <div class="section-heading split-heading">
           <div>
             <p class="section-kicker">Teaser</p>
-            <h2>One route. Three layers of reasoning. A live onboard execution.</h2>
+            <h2>The video shows route selection, local replanning, and yaw control working as one stack.</h2>
           </div>
           <p class="section-intro">
-            The video shows the full stack in motion: long-horizon path selection, local trajectory refinement, and yaw optimization that keeps informative structures inside the LiDAR's effective view.
+            It combines the long-horizon graph search with online execution so the vehicle stays in informative geometry instead of merely staying collision-free.
           </p>
         </div>
 
         <div class="media-panel">
-          <video src="IROS2026.mp4" poster="resources/images/video-frame-56.jpg" controls playsinline preload="metadata"></video>
+          <video src="IROS2026.mp4" poster="resources/images/video-poster.jpg" controls playsinline preload="metadata"></video>
         </div>
       </div>
     </section>
@@ -115,14 +112,14 @@
       <div class="section-shell split-layout">
         <div>
           <p class="section-kicker">Abstract</p>
-          <h2>Collision-free motion is still not enough when localization can drift into failure.</h2>
+          <h2>When localization weakens, a path that is collision-free can still be mission-failure-prone.</h2>
         </div>
         <div class="prose">
           <p>
-            Long-range UAV navigation in GNSS-denied feature-sparse outdoor environments is hard because LiDAR-inertial odometry can become ill-conditioned even when a geometric path exists. Once the estimator weakens, drift accumulates and the mission can collapse before the vehicle reaches the goal.
+            Long-range UAV navigation in GNSS-denied, feature-sparse outdoor environments is difficult because LiDAR-inertial odometry can lose conditioning even when a valid geometric path exists. The problem is not only obstacle avoidance; it is keeping the estimator healthy enough to finish the mission.
           </p>
           <p>
-            AUG addresses this with a scalable perception-aware planning framework that couples long-horizon connectivity reasoning with estimator-aware online replanning. It incrementally builds a lightweight free-space topological graph, generates local MINCO trajectories on a robocentric ROG-map, and explicitly optimizes yaw so the sensor keeps pointing toward informative structure.
+            AUG addresses this by coupling topology-aware global routing with estimator-aware local optimization. The planner incrementally constructs a free-space graph, performs local trajectory refinement on a robocentric map, and explicitly optimizes yaw to preserve informative sensor observations.
           </p>
         </div>
       </div>
@@ -133,25 +130,25 @@
         <div class="section-heading">
           <div>
             <p class="section-kicker">Contributions</p>
-            <h2>Three additions make the planner work at long range without a global ESDF.</h2>
+            <h2>Three pieces make the planner practical at long range.</h2>
           </div>
         </div>
 
         <div class="feature-grid">
           <article>
             <span class="method-index">01</span>
-            <h3>Topology-guided global routing</h3>
-            <p>Builds a free-space graph from bubble-based decomposition and feature-aware node selection, then searches corridors that stay estimation-friendly as well as collision-free.</p>
+            <h3>Incremental topology graph</h3>
+            <p>Builds a free-space graph online and prefers corridors that are both traversable and informative, rather than optimizing geometry alone.</p>
           </article>
           <article>
             <span class="method-index">02</span>
             <h3>Robocentric local planning</h3>
-            <p>Uses a sliding ROG-map and MINCO optimization to keep runtime and memory nearly constant while still generating smooth, real-time position trajectories.</p>
+            <p>Uses a sliding ROG-map and MINCO optimization to keep memory bounded while still generating smooth, real-time trajectories.</p>
           </article>
           <article>
             <span class="method-index">03</span>
             <h3>Perception-constrained yaw</h3>
-            <p>Searches yaw profiles that keep nearby informative structures visible to LiDAR, reducing estimator degeneration in sparse scenes where geometric heuristics are brittle.</p>
+            <p>Scores yaw choices by the quality of visible structure so the LiDAR keeps useful features in view during flight.</p>
           </article>
         </div>
       </div>
@@ -161,14 +158,14 @@
       <div class="section-shell split-layout">
         <div>
           <p class="section-kicker">Method</p>
-          <h2>Global route, local trajectory, and yaw are optimized as one planning stack.</h2>
+          <h2>Global route, local trajectory, and heading are planned together.</h2>
         </div>
         <div class="prose">
           <p>
-            AUG first forms incremental topological connectivity from local free-space bubbles and feature density, then selects a global route that avoids perceptual dead zones. The chosen route feeds a lightweight local optimizer that only operates on a sliding map window.
+            AUG first expands a connectivity graph from local free-space bubbles and feature support. The global route then favors paths through structure-rich corridors, which reduces the chance of entering estimator-degrading regions.
           </p>
           <p>
-            In parallel, a yaw planner evaluates where the LiDAR can retain useful features and refines heading so the vehicle sees more stable constraints during the flight. This is the main difference from purely geometric yaw alignment.
+            The selected route feeds a local optimizer operating on a sliding robocentric map. In parallel, the yaw module searches for headings that maintain informative LiDAR geometry, making the flight stack behave as a single perception-aware system rather than disconnected modules.
           </p>
         </div>
       </div>
@@ -177,25 +174,25 @@
         <div class="method-grid">
           <article>
             <span class="method-index">A</span>
-            <h3>Incremental topology graph</h3>
-            <p>Nodes are created from connected free-space components and filtered by feature support, allowing global routing without a large ESDF volume.</p>
+            <h3>Topology-guided routing</h3>
+            <p>Extracts usable corridors from online observations and avoids weakly observed space when better alternatives exist.</p>
           </article>
           <article>
             <span class="method-index">B</span>
             <h3>ROG-map trajectory optimization</h3>
-            <p>A robocentric map representation supports smooth local planning with bounded memory, which is critical for kilometer-scale missions.</p>
+            <p>Optimizes smooth local motion with bounded memory, which is crucial for kilometer-scale missions.</p>
           </article>
           <article>
             <span class="method-index">C</span>
             <h3>Yaw search and refinement</h3>
-            <p>The planner explicitly scores sensor orientation by expected feature quality, then refines a smooth yaw profile within dynamic limits.</p>
+            <p>Adjusts the viewing direction to preserve feature-rich LiDAR returns and suppress estimator drift.</p>
           </article>
         </div>
 
         <figure class="wide-figure">
           <img src="resources/images/pdf-img-002.jpg" alt="Topology node generation from LiDAR observations">
           <figcaption>
-            Topology node generation from LiDAR observations: the planner extracts free-space structure online instead of relying on a prebuilt global voxel map.
+            The planner extracts connectivity from live sensing instead of relying on a global prebuilt map.
           </figcaption>
         </figure>
       </div>
@@ -206,7 +203,7 @@
         <div class="section-heading">
           <div>
             <p class="section-kicker">Results</p>
-            <h2>Reliability improves without paying a large memory or runtime penalty.</h2>
+            <h2>Reliability improves without a large memory or runtime penalty.</h2>
           </div>
         </div>
 
@@ -216,7 +213,7 @@
             <span>success across all 3 simulation scenes</span>
           </article>
           <article>
-            <strong>1.1-1.7%</strong>
+            <strong>1-2%</strong>
             <span>relative pose error in simulation</span>
           </article>
           <article>
@@ -236,11 +233,11 @@
           </figure>
           <figure>
             <img src="resources/images/pdf-img-040.jpg" alt="EGO feature and error comparison">
-            <figcaption>In EGO, the feature count collapses while error grows rapidly once the route leaves the informative corridor.</figcaption>
+            <figcaption>EGO loses informative structure and error rises quickly once the route leaves the corridor.</figcaption>
           </figure>
           <figure>
-            <img src="resources/images/pdf-img-046.jpg" alt="Super feature and error comparison">
-            <figcaption>SUPER improves scalability, but the same feature loss still drives error upward in sparse environments.</figcaption>
+            <img src="resources/images/pdf-img-046.jpg" alt="SUPER feature and error comparison">
+            <figcaption>SUPER is more scalable, but sparse geometry still drives error upward.</figcaption>
           </figure>
         </div>
 
@@ -248,7 +245,7 @@
           <figure>
             <img src="resources/images/pdf-img-053.jpg" alt="Localization quality comparison across planners">
             <figcaption>
-              Localization quality across planners: AUG holds low estimator error while the baselines degrade more quickly in the same flight window.
+              AUG holds low estimator error while the baselines degrade more quickly in the same flight window.
             </figcaption>
           </figure>
 
@@ -318,15 +315,15 @@
           </figure>
           <figure>
             <img src="resources/images/pdf-img-050.jpg" alt="SUPER estimator feature and error over time">
-            <figcaption>SUPER is better behaved than EGO, but still degrades when the trajectory enters a feature-poor corridor.</figcaption>
+            <figcaption>SUPER behaves better than EGO, but still degrades in feature-poor corridors.</figcaption>
           </figure>
           <figure>
-            <img src="resources/images/pdf-img-051.jpg" alt="OUR WO TOPO estimator feature and error over time">
-            <figcaption>Topology-guided routing keeps the vehicle in better conditioned regions and suppresses drift growth.</figcaption>
+            <img src="resources/images/pdf-img-051.jpg" alt="Topology-guided estimator comparison over time">
+            <figcaption>Topology-guided routing keeps the vehicle in better conditioned regions.</figcaption>
           </figure>
           <figure>
-            <img src="resources/images/pdf-img-052.jpg" alt="OUR WO YAW estimator feature and error over time">
-            <figcaption>Yaw optimization is the missing piece for retaining features throughout the full trajectory.</figcaption>
+            <img src="resources/images/pdf-img-052.jpg" alt="Yaw optimization estimator comparison over time">
+            <figcaption>Yaw optimization is the missing piece for retaining features across the whole flight.</figcaption>
           </figure>
         </div>
 
@@ -387,6 +384,6 @@
     <p>Project page for AUG. Static page inspired by academic robotics project websites.</p>
   </footer>
 
-  <script src="static/script.js?v=5"></script>
+  <script src="static/script.js?v=6"></script>
 </body>
 </html>
